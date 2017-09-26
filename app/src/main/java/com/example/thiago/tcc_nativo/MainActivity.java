@@ -1,6 +1,13 @@
 package com.example.thiago.tcc_nativo;
 
+import android.Manifest;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -12,9 +19,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private ServiceMonitor serviceMonitor;
+    private ServiceConnection serviceCall = new ServiceConnection() {
+
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            serviceMonitor = ((ServiceMonitor.ServiceMonitorDataBinder) service).getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            serviceMonitor.onDestroy();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +64,28 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
+        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+
+        if (Build.VERSION.SDK_INT >= 23 && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            Toast.makeText(this, getString(R.string.storage_permission), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        startService(new Intent(this, ServiceMonitor.class));
+        bindService(new Intent(this, ServiceMonitor.class),serviceCall,0);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        serviceMonitor.stopRecord();
+        stopService(new Intent(this, ServiceMonitor.class));
+        unbindService(serviceCall);
+
     }
 
     @Override
@@ -80,8 +126,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.data_base) {
+            Intent i = new Intent(this,DataBase.class);
+            startActivity(i);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
