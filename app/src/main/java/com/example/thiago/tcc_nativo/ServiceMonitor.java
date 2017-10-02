@@ -88,7 +88,7 @@ public class    ServiceMonitor extends Service {
             while (readThread == thisThread) {
                 read();
                 try {
-                    Thread.sleep(intervalRead);
+                    Thread.sleep(100);
 /*					synchronized (this) {
 						while (readThread == thisThread && threadSuspended)
 							wait();
@@ -456,14 +456,14 @@ public class    ServiceMonitor extends Service {
         try {
             if (topRow) {
                 StringBuilder sb = new StringBuilder()
-                        .append(getString(R.string.app_name))
+                        .append("nativo")
                         .append("Inicio:,")
                         .append(getDate())
                         .append(",Intervalo:,")
                         .append(intervalRead)
                         .append(",Memória Total (kB),")
                         .append(memTotal)
-                        .append("\nTime,Data,Total CPU usada (%)," + getString(R.string.app_name) + "(Pid ").append(Process.myPid()).append(") CPU usado (%),HibridoApp memoria (kB)");
+                        .append("\nTime,Data,Total CPU usada (%)," + "nativo" + "(Pid ").append(Process.myPid()).append(") CPU usado (%),nativoApp memoria (kB)");
                 if (mListSelected != null && !mListSelected.isEmpty())
                     for (Map<String, Object> p : mListSelected)
                         sb.append(",").append(p.get(C.pAppName)).append(" (Pid ").append(p.get(C.pId)).append(") CPU usada (%)")
