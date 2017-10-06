@@ -6,9 +6,8 @@
             android:id="@+id/data_base"
             android:title="Data Base" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/dicionario"
+            android:title="Dicionario" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"

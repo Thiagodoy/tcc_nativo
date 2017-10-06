@@ -1,5 +1,17 @@
 package com.example.thiago.tcc_nativo;
 
+import android.os.Environment;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by thiago on 9/19/17.
  */
@@ -7,95 +19,79 @@ package com.example.thiago.tcc_nativo;
 public class C {
 
     static final String prefs = "Prefs";
-    static final String sbh = "status_bar_height";
-    static final String nbh = "navigation_bar_height";
-    static final String dimen = "dimen";
-    static final String android = "android";
-    static final String europeLondon = "Europe/London";
-    static final String marketDetails = "market://details?id=";
-    static final int defaultIntervalRead = 1000;
-    static final int defaultIntervalUpdate = 1000;
-    static final int defaultIntervalWidth = 1;
 
-    // ServiceReader
+    static final int defaultIntervalRead = 1000;
     static final String readThread = "readThread";
 
-    static final String actionStartRecord = "actionRecord";
-    static final String actionStopRecord = "actionStop";
-    static final String actionClose = "actionClose";
     static final String actionSetIconRecord = "actionSetIconRecord";
-    static final String actionDeadProcess = "actionRemoveProcess";
-    static final String actionFinishActivity = "actionCloseActivity";
-
-    static final String pId = "pId";
-    static final String pName = "pName";
-    static final String pPackage = "pPackage";
-    static final String pAppName = "pAppName";
-    static final String pTPD = "pPTD";
-    static final String pSelected = "pSelected";
-    static final String pDead = "pDead";
-    static final String pColour = "pColour";
-    static final String work = "work";
-    static final String workBefore = "workBefore";
-    static final String pFinalValue = "finalValue";
-    static final String process = "process";
-    static final String screenRotated = "screenRotated";
-    static final String listSelected = "listSelected";
-    static final String listProcesses = "listProcesses";
-
-    // ActivityMain
-    static final int storagePermission = 1;
-    static final String kB = "kB";
-    static final String percent = "%";
-    //	static final String drawThread = "drawThread";
-    static final String menuShown = "menuShown";
-    static final String settingsShown = "settingsShown";
-    static final String orientation = "orientation";
-    static final String processesMode = "processesMode";
-    static final String canvasLocked = "canvasLocked";
-
-    static final String welcome = "firstTime";
-    static final String welcomeDate = "firstTimeDate";
-    static final String firstTimeProcesses = "firstTimeProcesses";
-    static final String feedbackFirstTime = "feedbackFirstTime";
-    static final String feedbackDone = "feedbackDone";
-
     static final String intervalRead = "intervalRead";
-    static final String intervalUpdate = "intervalUpdate";
-    static final String intervalWidth = "intervalWidth";
 
-    static final String cpuTotal = "cpuTotalD";
-    static final String cpuAM = "cpuAMD";
-    static final String memUsed = "memUsedD";
-    static final String memAvailable = "memAvailableD";
-    static final String memFree = "memFreeD";
-    static final String cached = "cachedD";
-    static final String threshold = "thresholdD";
 
-    // GraphicView
-    static final String processMode = "processMode";
-    static final int processesModeShowCPU = 0;
-    static final int processesModeShowMemory = 1;
 
-    static final String graphicMode = "graphicMode";
-    static final int graphicModeShowMemory = 0;
-    static final int graphicModeHideMemory = 1;
+    static final String [] palavras10 = new String[]{"Secretário","Morango","Selote","Preparo","Irritação","Charuto","Massa","Lerdaço","Potável","Anchova"};
+    static final String[] getPalavras100 = new String[]{"Secretário","Morango","Selo","Pijamas","Irritação","Charuto","Massa","Ler","Potável","Anchova","Espectador","Caçarola","Robô","Hidrogênio","Luz","Guarda Costeira","Autógrafo","Banhar","Surpresa","Promotor",
+            "Ações","Príncipe","Ginástica","Metralhadora","Matagal","Criceto","Passaporte","Comida","Este","Girino","Giz","Ridículo","Fuga","Pagamento","Motor","Iate","Vinho","Aplicação","Vigor","Ruga","Helicóptero","República","Misto","Respirar","Flutuante","Gotejamento","Galo","Magnetizado","Roer","Estaca","Cupido","Guarda-costas","Quilômetro","Aeróbica","Clique","O Andes","Espiral","Pontapé","Termóstato","Quadrúpede","Ruim","Oval","Observatório","Cigarro","Aeromoça","Planador","Paciente","Cornija","Purificador","Mentira","Quilômetro","Jóias","Cavalos","Dizer","Glândulas","Resgate","Cenoura","Pegar","Injetar","Medalhão","Cozinhar","Estrábico","Zodíaco","Greenpeace","Diligência","Sereia","Porto","Conde","Botão","Condutor","Centelha","Varanda","Nero","Rosa","Flamenco","Preencher","Mural","Sogro","Alívio","Água"};
 
-    // ActivityPreferences
-    static final String currentItem = "ci";
 
-    static final String mSRead = "mSRead";
-    static final String mSUpdate = "mSUpdate";
-    static final String mSWidth = "mSWidth";
 
-    static final String mCBMemFreeD = "memFreeD";
-    static final String mCBBuffersD = "buffersD";
-    static final String mCBCachedD = "cachedD";
-    static final String mCBActiveD = "activeD";
-    static final String mCBInactiveD = "inactiveD";
-    static final String mCBSwapTotalD = "swapTotalD";
-    static final String mCBDirtyD = "dirtyD";
-    static final String mCBCpuTotalD = "cpuTotalD";
-    static final String mCBCpuAMD = "cpuAMD";
-//	static final String mCBCpuRestD = "cpuRestD";
+    static void gravarLog(List<Experimento> list, String nameFile,String etapa){
+
+        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/ExperimentosNativo");
+        dir.mkdir();
+        File file = new File(dir,nameFile);
+        BufferedWriter writer = null;
+
+        try {
+            writer = new BufferedWriter(new FileWriter(file));
+            writer.write("experimento,execucao,tempo,inicio,fim,time_inicio,time_fim,quantidade,tipo,etapa,plataforma\n");
+
+            Iterator<Experimento> it = list.iterator();
+
+            while (it.hasNext()){
+                StringBuilder log = new StringBuilder();
+                Experimento exp = it.next();
+
+                log.append("" + exp.getExp());
+                log.append("," + exp.getExec());
+                log.append("," + (exp.getEnd().getTime() - exp.getInit().getTime()));
+                log.append("," + getDate(exp.getInit()));
+                log.append("," + getDate(exp.getEnd()));
+                log.append("," + exp.getInit().getTime());
+                log.append("," + exp.getEnd().getTime());
+                log.append("," + exp.getQtd());
+                log.append("," + exp.getType());
+                log.append("," + etapa  );
+                log.append(",ANDROID\n");
+                writer.write(log.toString());
+
+            }
+
+            writer.flush();
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private static String getDate(Date d) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+        DecimalFormat df = new DecimalFormat("00");
+        DecimalFormat dff = new DecimalFormat("000");
+
+
+        return new StringBuilder()
+                .append(df.format(c.get(Calendar.YEAR))).append("-")
+                .append(df.format(c.get(Calendar.MONTH) + 1)).append("-")
+                .append(df.format(c.get(Calendar.DATE))).append(" ")
+                .append(df.format(c.get(Calendar.HOUR_OF_DAY))).append(":")
+                .append(df.format(c.get(Calendar.MINUTE))).append(":")
+                .append(df.format(c.get(Calendar.SECOND))).append(".")
+                .append(dff.format(c.get(Calendar.MILLISECOND))).append("").toString();
+
+    }
+
 }

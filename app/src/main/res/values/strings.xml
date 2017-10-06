@@ -6,4 +6,5 @@
     <string name="storage_permission">Sem Permissão de leitura e gravação na Storage</string>
 
     <string name="action_settings">Settings</string>
+    <string name="title_activity_search_file">SearchFile</string>
 </resources>
