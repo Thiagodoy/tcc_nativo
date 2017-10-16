@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,6 +21,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -33,7 +38,7 @@ public class SearchFile extends AppCompatActivity {
     List<Experimento> experimentos = new ArrayList<>();
     List<Experimento> experimentosSaida = new ArrayList<>();
     List<String>palavra10 = Arrays.asList(C.palavras10);
-    List<String>palavra100 = Arrays.asList(C.getPalavras100);
+    List<String>palavra100 = Arrays.asList(C.Palavras100);
 
     Button btn;
 
@@ -77,27 +82,35 @@ public class SearchFile extends AppCompatActivity {
                 List<String> current = exp.getQtd() == 10 ? palavra10 : palavra100;
                 try {
                     for (String palavra: current) {
-                        BufferedReader bf = openFile(palavra.substring(0,1).toUpperCase());
+                        String bf = openFile(palavra.substring(0,1).toUpperCase());
 
                         Pattern pattern = Pattern.compile("\\*?\\s?\\*" + palavra +"\\*",Pattern.CASE_INSENSITIVE);
-                        String line;
-                        y:
-                        while((line = bf.readLine()) != null){
-                            Matcher matcher = pattern.matcher(line);
+                        ///String line;
 
-                            if(matcher.find()){
-                                count++;
-                               Log.i("Dicionario","###############################");
-                               Log.i("Dicionario","Palavra - " + line);
-                                while(!(line = bf.readLine()).isEmpty()){
-                                    Log.i("Dicionario",line);
-                                }
-                                Log.i("Dicionario","###############################");
-                                break y;
-                            }
+                        Matcher matcher = pattern.matcher(bf);
+
+                        if(matcher.find()){
+                            Log.i("Dicionario","###############################");
+                            Log.i("Dicionario","Palavra - " + palavra);
+                            Log.i("Dicionario","###############################");
                         }
-
-                        bf.close();
+                        //y:
+//                        while((line = bf.readLine()) != null){
+//                            Matcher matcher = pattern.matcher(line);
+//
+//                            if(matcher.find()){
+//                                count++;
+//                               Log.i("Dicionario","###############################");
+//                               Log.i("Dicionario","Palavra - " + line);
+//                                while(!(line = bf.readLine()).isEmpty()){
+//                                    Log.i("Dicionario",line);
+//                                }
+//                                Log.i("Dicionario","###############################");
+//                                break y;
+//                            }
+//                        }
+//
+//                        bf.close();
                     }
 
 
@@ -117,7 +130,7 @@ public class SearchFile extends AppCompatActivity {
         }
 
 
-        C.gravarLog(experimentosSaida,"EtapaDicionario.csv","DICIONARIO");
+        C.gravarLog(experimentosSaida,"EtapaDicionario.csv","SEARCHFILE");
 
 
         Log.i("time","" + (System.currentTimeMillis() - init));
@@ -125,8 +138,16 @@ public class SearchFile extends AppCompatActivity {
 
     }
 
-    private BufferedReader openFile(String inicial) throws Exception{
-        return new BufferedReader(new InputStreamReader(getAssets().open(inicial + ".txt"), "UTF-8"));
+    private String openFile(String inicial) throws Exception{
+
+
+
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(getAssets().open(inicial + ".txt"), writer, "UTF-8");
+
+
+
+        return writer.toString();//new BufferedReader(new InputStreamReader(getAssets().open(inicial + ".txt"), "UTF-8"));
     }
 
 }

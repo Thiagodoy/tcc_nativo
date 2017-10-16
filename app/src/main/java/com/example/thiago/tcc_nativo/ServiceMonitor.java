@@ -138,11 +138,7 @@ public class    ServiceMonitor extends Service {
     public void onDestroy() {
         if (recording)
             stopRecord();
-//        mNM.cancelAll();
 
-//        unregisterReceiver(receiverStartRecord);
-//        unregisterReceiver(receiverStopRecord);
-//        unregisterReceiver(receiverClose);
 
         try {
             readThread.interrupt();
@@ -319,7 +315,8 @@ public class    ServiceMonitor extends Service {
                     .append("\n").append(new Date().getTime()) //time
                     .append(",").append(getDate())//data
                     .append(",").append(cpuAM.get(0))// processador processo
-                    .append(",").append(Runtime.getRuntime().totalMemory()/2048)//memoria do processo
+                    //.append(",").append(Runtime.getRuntime().totalMemory()/2048)//memoria do processo
+                    .append(",").append(memoryAM.get(0)/2048)
                     .append(",").append(Runtime.getRuntime().freeMemory()/2048)
                     .append(",").append((((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) * 100)/Runtime.getRuntime().totalMemory())/100d)
                     .append(",").append("ANDROID");

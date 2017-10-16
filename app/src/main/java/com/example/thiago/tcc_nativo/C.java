@@ -29,9 +29,15 @@ public class C {
 
 
     static final String [] palavras10 = new String[]{"Secretário","Morango","Selote","Preparo","Irritação","Charuto","Massa","Lerdaço","Potável","Anchova"};
-    static final String[] getPalavras100 = new String[]{"Secretário","Morango","Selo","Pijamas","Irritação","Charuto","Massa","Ler","Potável","Anchova","Espectador","Caçarola","Robô","Hidrogênio","Luz","Guarda Costeira","Autógrafo","Banhar","Surpresa","Promotor",
-            "Ações","Príncipe","Ginástica","Metralhadora","Matagal","Criceto","Passaporte","Comida","Este","Girino","Giz","Ridículo","Fuga","Pagamento","Motor","Iate","Vinho","Aplicação","Vigor","Ruga","Helicóptero","República","Misto","Respirar","Flutuante","Gotejamento","Galo","Magnetizado","Roer","Estaca","Cupido","Guarda-costas","Quilômetro","Aeróbica","Clique","O Andes","Espiral","Pontapé","Termóstato","Quadrúpede","Ruim","Oval","Observatório","Cigarro","Aeromoça","Planador","Paciente","Cornija","Purificador","Mentira","Quilômetro","Jóias","Cavalos","Dizer","Glândulas","Resgate","Cenoura","Pegar","Injetar","Medalhão","Cozinhar","Estrábico","Zodíaco","Greenpeace","Diligência","Sereia","Porto","Conde","Botão","Condutor","Centelha","Varanda","Nero","Rosa","Flamenco","Preencher","Mural","Sogro","Alívio","Água"};
-
+    static final String[] Palavras100 = new String[]{"Morango","Selo","Pijamas","Irritação","Charuto","Massa","Ler","Potável","Anchova",
+            "Espectador","Caçarola","Preopinar","Labátia","Rabalha","Gonalgia","Abelhina","Poimento","Intelligibilidade", "Fundo","Montar",
+            "Quinchoso","Aura", "Condonatário", "Ponderar","Tombante","Rijeira", "Siagonagra","Piratiningano","Loireiro","Relaxismo","Unguento",
+            "Uval", "Wiedmânnia", "Ximbaúva", "Xiphódymo", "Zoofitologia", "Zaborreira", "Quartola", "Quartzoso", "Relance", "Conducente","Hispanista",
+            "Hidróstato","Hysteria","Joeireiro","Justiçar","Optação","Opticógrapho","Desvaler","Desveladamente","Andadoria","Anelytro","Bago","Balça","Cália",
+            "Cânhamo","Derrocar","Deschristianizar","Entumecer","Efluxão","Faringoscopia","Falsífico","Giesta","Glossálgia","Hérnico","Homográfico","Immaturidade",
+            "Incompreensível","Jeroglífica","Jesuiticamente","Képi","Kneipista","Lagrimal","Lento","Meã","Medullar","Nefrotómico","Nequícia","Octobóthrio",
+            "Offenbachesco","Propinação","Pyrrhonicamente","Quotidianamente","Quinquilharia","Reaparição","Recensão","Sachador","Sacalinha","Tangomau","Tarefa",
+            "Umbráculo","Uretére","Valsar","Vassoiro","Watsónia","Xeringosa","Xystrópodes","Yorkino","Zabumba","Zooscópico"};
 
 
     static void gravarLog(List<Experimento> list, String nameFile,String etapa){
